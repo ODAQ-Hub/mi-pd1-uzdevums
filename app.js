@@ -3,6 +3,7 @@
 const STORAGE_KEY = "pd1-uzdevumi";
 let tasks = [];
 let currentFilter = "all";
+let editingId = null;
 
 const input = document.getElementById("task-input");
 const addButton = document.getElementById("add-btn");
@@ -57,8 +58,43 @@ function toggleTask(id) {
 
 // Dzēš izvēlēto uzdevumu
 function deleteTask(id) {
+    if (editingId === id) editingId = null;
     tasks = tasks.filter(task => task.id !== id);
     saveTasks();
+    renderTasks();
+}
+
+// Sāk uzdevuma teksta rediģēšanu
+function startEdit(id) {
+    if (editingId !== null) return;
+
+    editingId = id;
+    renderTasks();
+
+    const editInput = taskList.querySelector(".edit-input");
+    if (editInput) {
+        editInput.focus();
+        editInput.select();
+    }
+}
+
+// Saglabā rediģēto tekstu
+function finishEdit(id, value) {
+    const task = tasks.find(item => item.id === id);
+    const text = value.trim();
+
+    if (task && text) {
+        task.text = text;
+        saveTasks();
+    }
+
+    editingId = null;
+    renderTasks();
+}
+
+// Atceļ uzdevuma rediģēšanu
+function cancelEdit() {
+    editingId = null;
     renderTasks();
 }
 
@@ -89,7 +125,28 @@ function renderTasks() {
 
         const text = document.createElement("span");
         text.className = "task-text";
-        text.textContent = task.text;
+
+        if (editingId === task.id) {
+            const editInput = document.createElement("input");
+            editInput.type = "text";
+            editInput.className = "edit-input";
+            editInput.value = task.text;
+            editInput.addEventListener("keydown", event => {
+                if (event.key === "Enter") {
+                    finishEdit(task.id, editInput.value);
+                }
+                if (event.key === "Escape") cancelEdit();
+            });
+            editInput.addEventListener("blur", () => {
+                if (editingId === task.id) {
+                    finishEdit(task.id, editInput.value);
+                }
+            });
+            text.appendChild(editInput);
+        } else {
+            text.textContent = task.text;
+            text.addEventListener("dblclick", () => startEdit(task.id));
+        }
 
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete-btn";
@@ -115,6 +172,8 @@ input.addEventListener("keydown", event => {
 // Filtru pārslēgšana
 filterButtons.forEach(button => {
     button.addEventListener("click", () => {
+        if (editingId !== null) cancelEdit();
+
         currentFilter = button.dataset.filter;
         filterButtons.forEach(btn => btn.classList.remove("active"));
         button.classList.add("active");
