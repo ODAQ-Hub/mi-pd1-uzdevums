@@ -6,8 +6,8 @@
 body {
     margin: 0;
     padding: 30px 15px;
-    font-family: Arial, sans-serif;
-    background: #f1f3f8;
+    font-family: Verdana, sans-serif;
+    background: #523b7b;
     color: #263238;
 }
 
@@ -15,7 +15,7 @@ body {
     max-width: 550px;
     margin: 40px auto;
     padding: 30px;
-    background: white;
+    background: rgb(249, 174, 69);
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
@@ -86,7 +86,7 @@ button {
     align-items: center;
     gap: 10px;
     padding: 12px 5px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #243b69;
 }
 
 .task-item input[type="checkbox"] {
@@ -111,13 +111,13 @@ button {
 }
 
 .delete-btn:hover {
-    background: #f8cccc;
+    background: #ed5959;
 }
 
 .counter {
     margin-top: 20px;
     text-align: center;
-    color: #667085;
+    color: #25365b;
     font-size: 14px;
 }
 
@@ -146,4 +146,15 @@ button {
     .filter-btn {
         padding: 9px 12px;
     }
+}
+.edit-input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 2px solid #315da8;
+    border-radius: 6px;
+    background-color: #f0f5ff;
+    color: #263238;
+    font-size: 16px;
+    outline: none;
 }
