@@ -20,7 +20,14 @@ Izvades formāts: katrs fails atsevišķā koda blokā ar faila nosaukumu. Pēc 
 Ja kaut kas nav skaidrs, pirms koda uzdod man jautājumus.
 """
 # Pirmais uzlabojums
-
+""" 
 Mērķis ir papildināt esošo lietotni „Mani uzdevumi” ar iespēju rediģēt uzdevumu tekstu, nemainot pārējās funkcijas un HTML/CSS struktūru.
 Veic app.js  uzlabojumus. Start edit un finish edit, lai ar dubultklikšķi var labot tekstu, ar ENTER saglabāt un esc atcelt. 
 Vispirms uzraksti darbu plānu.
+""" 
+# Otrais Uzlabojums 
+""" 
+papildināt style.css, lai rediģēšanas lauks vizuāli atšķirtos no parastā uzdevuma teksta.
+Sakārto CSS tā, lai fontus, teksta izmērus un fona krāsas varētu ērti mainīt vienuviet.
+""" 
+
