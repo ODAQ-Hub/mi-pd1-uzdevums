@@ -11,6 +11,11 @@ const selectedDate = document.getElementById("selected-date");
 const addButton = document.getElementById("add-btn");
 const taskList = document.getElementById("task-list");
 const counter = document.getElementById("counter");
+const totalCount = document.getElementById("total-count");
+const doneCount = document.getElementById("done-count");
+const overdueCount = document.getElementById("overdue-count");
+const taskProgress = document.getElementById("task-progress");
+const progressPercent = document.getElementById("progress-percent");
 const filterButtons = document.querySelectorAll("[data-filter]");
 
 // Ielādē saglabātos uzdevumus
@@ -56,6 +61,10 @@ function formatDate(date) {
     return `${month}/${day}/${year}`;
 }
 
+function isOverdue(dueDate, done, today) {
+    return Boolean(dueDate) && dueDate < today && !done;
+}
+
 function updateOverdueTasks() {
     const now = new Date();
     const today = [
@@ -65,11 +74,21 @@ function updateOverdueTasks() {
     ].join("-");
 
     taskList.querySelectorAll(".task-item").forEach(item => {
-        const overdue = Boolean(item.dataset.dueDate) &&
-            item.dataset.dueDate < today && item.dataset.done === "false";
+        const overdue = isOverdue(item.dataset.dueDate, item.dataset.done === "true", today);
         item.classList.toggle("overdue", overdue);
         item.querySelector(".overdue-label").hidden = !overdue;
     });
+
+    const total = tasks.length;
+    const done = tasks.filter(task => task.done).length;
+    const overdue = tasks.filter(task => isOverdue(task.dueDate, task.done, today)).length;
+    const percent = total ? Math.round(done / total * 100) : 0;
+
+    totalCount.textContent = total;
+    doneCount.textContent = done;
+    overdueCount.textContent = overdue;
+    taskProgress.value = percent;
+    progressPercent.textContent = `${percent}%`;
 }
 
 function scheduleOverdueUpdate() {

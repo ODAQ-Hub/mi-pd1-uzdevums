@@ -29,8 +29,9 @@ Funkciju saraksts failā app.js
 10. getFilteredTasks() – atlasa uzdevumus atbilstoši izvēlētajam filtram: visi, aktīvie vai izpildītie.
 11. renderTasks() – attēlo uzdevumu sarakstu atbilstoši izvēlētajam filtram. Izveido katra uzdevuma izvēles rūtiņu, teksta lauku un dzēšanas pogu, kā arī atjauno aktīvo uzdevumu skaitītāju.
 12. formatDate(date) – pārveido saglabāto datumu attēlošanai formātā mm/dd/gggg.
-13. updateOverdueTasks() – atjauno nokavēto uzdevumu noformējumu un statusu pēc vietējā datuma.
+13. updateOverdueTasks() – atjauno nokavēto uzdevumu noformējumu un visu uzdevumu statistiku pēc vietējā datuma.
 14. scheduleOverdueUpdate() – ieplāno nokavēto uzdevumu pārbaudi nākamajā pusnaktī.
+15. isOverdue(dueDate, done, today) – pārbauda, vai neizpildīta uzdevuma termiņš ir pagājis.
 Papildu notikumu apstrāde
 Šīs nav atsevišķas nosauktas funkcijas, bet tās nodrošina lietotnes darbību:
 - Pievienošanas pogas notikums – pievieno uzdevumu, nospiežot pogu.
@@ -40,5 +41,5 @@ Papildu notikumu apstrāde
 - Rediģēšanas lauka blur notikums – saglabā izmaiņas, kad lietotājs atstāj rediģēšanas lauku.
 - Filtru pogu notikumi – pārslēdz uzdevumu attēlošanas filtru.
 - Lietotnes sākotnējā ielāde – izsauc loadTasks() un renderTasks(), lai parādītu saglabātos uzdevumus.
-Kopā: 14 galvenās funkcijas.
+Kopā: 15 galvenās funkcijas.
 

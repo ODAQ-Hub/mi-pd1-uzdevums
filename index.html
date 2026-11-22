@@ -35,6 +35,28 @@
             <button id="add-btn">Pievienot</button>
         </div>
 
+        <section class="statistics" aria-labelledby="statistics-title">
+            <h2 id="statistics-title">Statistika</h2>
+            <dl class="statistics-cards">
+                <div class="statistics-card statistics-total">
+                    <dt>Kopā</dt>
+                    <dd id="total-count">0</dd>
+                </div>
+                <div class="statistics-card statistics-done">
+                    <dt>Izpildīts</dt>
+                    <dd id="done-count">0</dd>
+                </div>
+                <div class="statistics-card statistics-overdue">
+                    <dt>Nokavēts</dt>
+                    <dd id="overdue-count">0</dd>
+                </div>
+            </dl>
+            <div class="statistics-progress">
+                <progress id="task-progress" max="100" value="0" aria-label="Izpildīto uzdevumu progress"></progress>
+                <span id="progress-percent">0%</span>
+            </div>
+        </section>
+
         <div class="filters">
             <button class="filter-btn active" data-filter="all">Visi</button>
             <button class="filter-btn" data-filter="active">Aktīvie</button>
