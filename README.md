@@ -4,7 +4,8 @@
 
 "Mani uzdevumi" ir vienkārša uzdevumu saraksta tīmekļa lietotne, kas izveidota ar bezmaksas MI čata palīdzību.
 Lietotne var pievienot, atzīmēt kā izpildītus, dzēst un filtrēt uzdevumus, un skaitītājs rāda atlikušo uzdevumu skaitu.
-Dati tiek saglabāti pārlūka localStorage atslēgā `pd1-uzdevums`, tāpēc tie saglabājas arī pēc lapas pārkraušanas.
+Pievienojot uzdevumu, pēc izvēles var norādīt termiņu kalendārā. Izvēlētais datums un sarakstā redzamais termiņš tiek attēlots formātā `mm/dd/gggg`; paša kalendāra ievades lauka formāts ir atkarīgs no pārlūka. Neizpildīti uzdevumi, kuru termiņš ir pagājis pēc vietējā datuma, iekrāsojas sarkani un tiek atzīmēti ar “Nokavēts”.
+Dati tiek saglabāti pārlūka localStorage atslēgā `pd1-uzdevumi`, tāpēc tie saglabājas arī pēc lapas pārkraušanas.
 Lietotne izmanto tikai HTML, CSS un JavaScript bez bibliotēkām un darbojas bez servera un interneta savienojuma.
 
 ## Palaišana

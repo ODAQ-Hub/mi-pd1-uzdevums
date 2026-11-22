@@ -19,6 +19,19 @@
                 placeholder="Jauns uzdevums..."
                 autocomplete="off"
             >
+            <div class="date-field">
+                <input
+                    type="date"
+                    id="task-date"
+                    lang="en-US"
+                    min="0001-01-01"
+                    max="9999-12-31"
+                    aria-label="Uzdevuma termiņš"
+                    aria-describedby="date-format"
+                >
+                <small id="date-format">Termiņš: mm/dd/gggg</small>
+                <output id="selected-date" for="task-date"></output>
+            </div>
             <button id="add-btn">Pievienot</button>
         </div>
 

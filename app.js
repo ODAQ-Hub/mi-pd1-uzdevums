@@ -6,6 +6,8 @@ let currentFilter = "all";
 let editingId = null;
 
 const input = document.getElementById("task-input");
+const dateInput = document.getElementById("task-date");
+const selectedDate = document.getElementById("selected-date");
 const addButton = document.getElementById("add-btn");
 const taskList = document.getElementById("task-list");
 const counter = document.getElementById("counter");
@@ -39,11 +41,44 @@ function createId() {
 function addTask() {
     const text = input.value.trim();
     if (!text) return;
+    if (!dateInput.reportValidity()) return;
 
-    tasks.push({ id: createId(), text, done: false });
+    tasks.push({ id: createId(), text, done: false, dueDate: dateInput.value });
     input.value = "";
+    dateInput.value = "";
+    selectedDate.textContent = "";
     saveTasks();
     renderTasks();
+}
+
+function formatDate(date) {
+    const [year, month, day] = date.split("-");
+    return `${month}/${day}/${year}`;
+}
+
+function updateOverdueTasks() {
+    const now = new Date();
+    const today = [
+        String(now.getFullYear()).padStart(4, "0"),
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0")
+    ].join("-");
+
+    taskList.querySelectorAll(".task-item").forEach(item => {
+        const overdue = Boolean(item.dataset.dueDate) &&
+            item.dataset.dueDate < today && item.dataset.done === "false";
+        item.classList.toggle("overdue", overdue);
+        item.querySelector(".overdue-label").hidden = !overdue;
+    });
+}
+
+function scheduleOverdueUpdate() {
+    const now = new Date();
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    setTimeout(() => {
+        updateOverdueTasks();
+        scheduleOverdueUpdate();
+    }, tomorrow - now + 50);
 }
 
 // Atzīmē uzdevumu kā izpildītu vai aktīvu
@@ -116,6 +151,8 @@ function renderTasks() {
     getFilteredTasks().forEach(task => {
         const item = document.createElement("li");
         item.className = "task-item";
+        item.dataset.dueDate = task.dueDate || "";
+        item.dataset.done = String(task.done);
         if (task.done) item.classList.add("completed");
 
         const checkbox = document.createElement("input");
@@ -154,10 +191,29 @@ function renderTasks() {
         deleteButton.setAttribute("aria-label", "Dzēst: " + task.text);
         deleteButton.addEventListener("click", () => deleteTask(task.id));
 
-        item.append(checkbox, text, deleteButton);
+        const details = document.createElement("div");
+        details.className = "task-details";
+        details.appendChild(text);
+
+        if (task.dueDate) {
+            const date = document.createElement("time");
+            date.className = "task-date";
+            date.dateTime = task.dueDate;
+            date.textContent = formatDate(task.dueDate);
+            details.appendChild(date);
+        }
+
+        const overdueLabel = document.createElement("span");
+        overdueLabel.className = "overdue-label";
+        overdueLabel.textContent = "Nokavēts";
+        overdueLabel.hidden = true;
+        details.appendChild(overdueLabel);
+
+        item.append(checkbox, details, deleteButton);
         taskList.appendChild(item);
     });
 
+    updateOverdueTasks();
     counter.textContent = tasks.filter(task => !task.done).length;
 }
 
@@ -166,6 +222,14 @@ addButton.addEventListener("click", addTask);
 
 // Uzdevuma pievienošana ar Enter taustiņu
 input.addEventListener("keydown", event => {
+    if (event.key === "Enter") addTask();
+});
+
+dateInput.addEventListener("input", () => {
+    selectedDate.textContent = dateInput.value ? formatDate(dateInput.value) : "";
+});
+
+dateInput.addEventListener("keydown", event => {
     if (event.key === "Enter") addTask();
 });
 
@@ -184,3 +248,7 @@ filterButtons.forEach(button => {
 // Lietotnes sākotnējā ielāde
 loadTasks();
 renderTasks();
+scheduleOverdueUpdate();
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) updateOverdueTasks();
+});
